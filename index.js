@@ -6,7 +6,7 @@ const
  libPath = `D:/A/ahk/AutoHotkey_H/ahkdll-v1-release-master/${dll_type}_MT/AutoHotkey.dll`;
 // libPath = `D:/A/ahk/AutoHotkey_H/ahkdll-v1-release-master/${dll_type}/AutoHotkey.dll`;
 
-function showText(text, encoding='utf8') {
+function showText(text, encoding='utf16le') {
   return new Buffer.from(text, encoding).toString('binary');
 };
 
@@ -23,24 +23,26 @@ autohotkey.dll 中的函数签名，可参考 luajit 或 c# 版本的包装
   - ...
 */
 const  ahkdll = new ffi.Library(libPath, {
-  'ahkTextDll': 
-  [
-    'int32', 
-    ['string','string','string'] 
-  ],
+    ahkTextDll:  [ 'int32',  ['string','string','string']  ],
+    ahkassign: ['int', ['string', 'string']],
+    ahkgetvar: ['string', ['string', 'uint']],
 });
 
 ok = ahkdll.ahkTextDll(
     showText('Msgbox I am AHK  /n MouseMove, 0,0  '), showText('') ,showText('TITLE') 
+    )
 
 console.log(ok)
 
+    
+ahkdll.ahkassign(showText('var1'), showText('3') );
+console.log('var1 is ' + ahkdll.ahkgetvar(showText('var1'),0) );
 
 const fs = require('fs');
 ahk_script_string = fs.readFileSync("D:/vagrant/www/kids_friends_electron/src/assets/ahk/kids_friends.ahk",'utf8')
 
 ok = ahkdll.ahkTextDll(
-    showText(ahk_script_string,'utf16le'), showText('') ,showText('TITLE','utf16le') 
+    showText(ahk_script_string),  showText('') , showText('TITLE') 
 );
 console.log(ok)
 
