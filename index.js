@@ -6,7 +6,7 @@ const
  libPath = `D:/A/ahk/AutoHotkey_H/ahkdll-v1-release-master/${dll_type}_MT/AutoHotkey.dll`;
 // libPath = `D:/A/ahk/AutoHotkey_H/ahkdll-v1-release-master/${dll_type}/AutoHotkey.dll`;
 
-function showText(text, encoding='utf16le') {
+function T(text, encoding='utf16le') {
   return new Buffer.from(text, encoding).toString('binary');
 };
 
@@ -29,20 +29,20 @@ const  ahkdll = new ffi.Library(libPath, {
 });
 
 ok = ahkdll.ahkTextDll(
-    showText('Msgbox I am AHK  /n MouseMove, 0,0  '), showText('') ,showText('TITLE') 
+    T('Msgbox I am AHK  /n MouseMove, 0,0  '), T('') ,T('TITLE') 
     )
 
 console.log(ok)
 
     
-ahkdll.ahkassign(showText('var1'), showText('3') );
-console.log('var1 is ' + ahkdll.ahkgetvar(showText('var1'),0) );
+ahkdll.ahkassign(T('var1'), T('3') );
+console.log('var1 is ' + ahkdll.ahkgetvar(T('var1'),0) );
 
 const fs = require('fs');
 ahk_script_string = fs.readFileSync("D:/vagrant/www/kids_friends_electron/src/assets/ahk/kids_friends.ahk",'utf8')
 
 ok = ahkdll.ahkTextDll(
-    showText(ahk_script_string),  showText('') , showText('TITLE') 
+    T(ahk_script_string),  T('') , T('TITLE') 
 );
 console.log(ok)
 
@@ -60,8 +60,8 @@ const myUser32 = new ffi.Library('user32', {
 
 const isOk = myUser32.MessageBoxW(
     0, 
-    showText('I am user32!','ucs2'), 
-    showText('Hello, World!','ucs2'), 
+    T('I am user32!','ucs2'), 
+    T('Hello, World!','ucs2'), 
     1
 );
 // console.log(isOk);
