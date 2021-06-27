@@ -60,7 +60,7 @@ const myUser32 = new ffi.Library('user32', {
 
 const isOk = myUser32.MessageBoxW(
     0, 
-    T('I am user32!','ucs2'), 
+    T('I am user32!','ucs2'),  // 'ucs-2': Aliases of 'utf16le'
     T('Hello, World!','ucs2'), 
     1
 );
